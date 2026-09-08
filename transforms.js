@@ -1,21 +1,9 @@
-// ============================================================
-// MODULE 3 - TRANSFORMATIONS
-// ============================================================
-//
-// Required concepts:
 // push() / pop()
 // translate()
 // rotate()
 // scale()
 // transformation order
-//
-// The shape data comes from sceneShapes[].
-// ============================================================
-
-
-// ------------------------------------------------------------
-// DRAW MODULE 3
-// ------------------------------------------------------------
+//data comes from sceneShapes[].
 
 function drawTransformModule() {
 
@@ -32,10 +20,7 @@ function drawTransformModule() {
   drawOrderDemo();
 }
 
-
-// ------------------------------------------------------------
 // TRANSFORM THE 13 SEEDED SHAPES
-// ------------------------------------------------------------
 
 function drawTransformedShapes() {
 
@@ -61,10 +46,7 @@ function drawTransformedShapes() {
   }
 }
 
-
-// ------------------------------------------------------------
 // DRAW ONE TRANSFORMED SHAPE
-// ------------------------------------------------------------
 
 function drawTransformShape(shape) {
 
@@ -104,31 +86,11 @@ function drawTransformShape(shape) {
   }
 }
 
-
-// ------------------------------------------------------------
-// TRANSFORMATION ORDER DEMONSTRATION
-// ------------------------------------------------------------
-//
-// LEFT:
-// translate -> rotate
-// The blade spins around its own pivot.
-//
-// RIGHT:
-// rotate -> translate
-// The translation follows the rotated axes,
-// so the blade moves around the pivot.
-//
-// This demonstrates that transformation order matters.
-// ------------------------------------------------------------
-
 function drawOrderDemo() {
 
   let angle = frameCount * 0.02;
 
-
-  // ----------------------------------------------------------
   // DIVIDER
-  // ----------------------------------------------------------
 
   stroke(
     palette[1][0],
@@ -145,10 +107,7 @@ function drawOrderDemo() {
     625
   );
 
-
-  // ----------------------------------------------------------
   // LEFT: TRANSLATE -> ROTATE
-  // ----------------------------------------------------------
 
   push();
 
@@ -175,9 +134,7 @@ function drawOrderDemo() {
   circle(280, 515, 8);
 
 
-  // ----------------------------------------------------------
   // RIGHT: ROTATE -> TRANSLATE
-  // ----------------------------------------------------------
 
   push();
 
@@ -206,10 +163,8 @@ function drawOrderDemo() {
 
   circle(820, 515, 8);
 
-
-  // ----------------------------------------------------------
   // ORBIT PATH
-  // ----------------------------------------------------------
+
 
   noFill();
 
@@ -225,11 +180,7 @@ function drawOrderDemo() {
   // Diameter = 220 because orbit radius = 110.
   circle(820, 515, 220);
 
-
-  // ----------------------------------------------------------
-  // LABELS
-  // ----------------------------------------------------------
-
+//labels
   noStroke();
 
   fill(
@@ -273,10 +224,7 @@ function drawOrderDemo() {
   textAlign(LEFT, BASELINE);
 }
 
-
-// ------------------------------------------------------------
 // WINDMILL-STYLE DEMO BLADE
-// ------------------------------------------------------------
 
 function drawDemoBlade() {
 
@@ -294,7 +242,6 @@ function drawDemoBlade() {
   );
 
   strokeWeight(3);
-
   rectMode(CENTER);
 
   rect(
@@ -303,7 +250,6 @@ function drawDemoBlade() {
     140,
     35
   );
-
 
   // Local origin / pivot.
   fill(

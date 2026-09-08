@@ -1,27 +1,8 @@
-// ============================================================
-// MODULE 4 - 3-D FARM AND CAMERA
-// ============================================================
-//
-// Controls:
-// P     = Perspective projection
-// O     = Orthographic projection
-// SPACE = Start / stop camera orbit
-//
-// Camera:
-// eye    = camera position
-// target = point the camera looks at
-// up     = which direction is up
-// ============================================================
-
-
 let projectionMode = "perspective";
 let cameraOrbit = true;
 let cameraAngle = 0;
 
-
-// ------------------------------------------------------------
 // DRAW MODULE 4
-// ------------------------------------------------------------
 
 function draw3DFarm() {
 
@@ -87,10 +68,7 @@ function setupFarmCamera() {
     );
   }
 }
-// ------------------------------------------------------------
-// LIGHTING
-// ------------------------------------------------------------
-
+//lighting
 function setupFarmLighting() {
 
   // General light.
@@ -104,10 +82,7 @@ function setupFarmLighting() {
   );
 }
 
-
-// ------------------------------------------------------------
-// GROUND
-// ------------------------------------------------------------
+//ground
 
 function draw3DGround() {
 
@@ -142,12 +117,7 @@ function draw3DGround() {
 
   pop();
 }
-
-
-// ------------------------------------------------------------
-// 3-D BARN
-// ------------------------------------------------------------
-
+//barn
 function draw3DBarn() {
 
   push();
@@ -201,11 +171,7 @@ function draw3DBarn() {
   pop();
 }
 
-
-// ------------------------------------------------------------
-// 3-D FARMHOUSE
-// ------------------------------------------------------------
-
+//house
 function draw3DHouse() {
 
   push();
@@ -242,22 +208,14 @@ function draw3DHouse() {
 
   pop();
 }
-
-
-// ------------------------------------------------------------
-// 3-D WINDMILL
-// ------------------------------------------------------------
-
+//windmill
 function draw3DWindmill() {
 
   push();
 
   translate(260, -70, -30);
 
-
-  // ----------------------------------------------------------
-  // TOWER
-  // ----------------------------------------------------------
+//tower
 
   push();
 
@@ -289,12 +247,7 @@ function draw3DWindmill() {
   box(14, 320, 14);
 
   pop();
-
-
-  // ----------------------------------------------------------
-  // ROTATING BLADES
-  // ----------------------------------------------------------
-
+//blades for windmill
   push();
 
   // Move to the windmill hub.
@@ -325,11 +278,7 @@ function draw3DWindmill() {
 
   pop();
 
-
-  // ----------------------------------------------------------
-  // HUB
-  // ----------------------------------------------------------
-
+//windmill ball
   push();
 
   translate(0, -48, 30);
@@ -347,12 +296,7 @@ function draw3DWindmill() {
 
   pop();
 }
-
-
-// ------------------------------------------------------------
-// 3-D TREES
-// ------------------------------------------------------------
-
+//trees
 function draw3DTrees() {
 
   draw3DTree(-430, -120);
@@ -402,10 +346,7 @@ function draw3DTree(x, z) {
   pop();
 }
 
-
-// ------------------------------------------------------------
-// 3-D CROPS
-// ------------------------------------------------------------
+//crops
 
 function draw3DCrops() {
 
@@ -434,19 +375,7 @@ function draw3DCrops() {
   }
 }
 
-
-// ------------------------------------------------------------
-// 3-D SEEDED SHAPES
-// ------------------------------------------------------------
-//
-// This uses the SAME sceneShapes[] array as Module 1.
-//
-// 2-D rect     -> 3-D box
-// 2-D circle   -> 3-D sphere
-// 2-D triangle -> 3-sided cone
-//
-// Therefore Module 4 is a 3-D interpretation of the
-// same generated scene data rather than unrelated data.
+//seeded shapes
 
 function draw3DSeededShapes() {
 

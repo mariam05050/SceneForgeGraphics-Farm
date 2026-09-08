@@ -61,10 +61,8 @@ function drawFractalModule() {
   );
 }
 
-
-// ------------------------------------------------------------
 // RECURSIVE SIERPINSKI FUNCTION
-// ------------------------------------------------------------
+
 
 function sierpinski(a, b, c, depth, level) {
 
@@ -104,25 +102,12 @@ function sierpinski(a, b, c, depth, level) {
   }
 
 
-  // ----------------------------------------------------------
-  // MIDPOINTS
-  // ----------------------------------------------------------
-  //
-  // lerp(..., 0.5) gives the point halfway
-  // between two vertices.
 
   let ab = p5.Vector.lerp(a, b, 0.5);
   let bc = p5.Vector.lerp(b, c, 0.5);
   let ca = p5.Vector.lerp(c, a, 0.5);
 
-
-  // ----------------------------------------------------------
-  // RECURSIVE CASE
-  // ----------------------------------------------------------
-  //
-  // Recurse into the three corner triangles.
-  // The centre triangle is left empty.
-
+//recursive case
   // Top.
   sierpinski(
     a,

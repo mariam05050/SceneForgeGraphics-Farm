@@ -1,12 +1,5 @@
-// SCENEFORGE - MAIN PROGRAM
-// Student ID: 202316773
-
-// Current module:
-// 1 = Shapes & Colour
-// 2 = Sierpinski
-// 3 = Transformations
-// 4 = 3-D View
-// 5 = Measure & Compare
+// SCENEFORGE MAIN PROGRAM
+// Mariam Diab ID: 202316773
 
 let currentModule = 1;
 
@@ -82,8 +75,6 @@ function draw() {
   drawUI();
 }
 
-// WEBGL places (0,0) in the centre.
-//
 // Modules 1, 2, 3 and 5 were designed using normal
 // top-left coordinates.
 //
@@ -96,7 +87,7 @@ function reset2DView() {
   resetMatrix();
 
 
-  // Stationary camera facing the canvas.
+  //  camera facing the canvas.
   camera(
     0, 0, 800,   // eye
     0, 0, 0,     // target

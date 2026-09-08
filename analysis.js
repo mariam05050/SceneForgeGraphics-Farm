@@ -30,7 +30,7 @@ function drawMeasurementModule() {
 
 
 // ============================================================
-// TABLE GRAPHICS
+// ANALYSIS TABLE GRAPHICS
 // ============================================================
 
 function drawAnalysisTableGraphics() {
@@ -83,9 +83,26 @@ function drawAnalysisTableGraphics() {
   let col2 = x + 500;
   let col3 = x + 745;
 
-  line(col1, y, col1, y + rowHeight * 5);
-  line(col2, y, col2, y + rowHeight * 5);
-  line(col3, y, col3, y + rowHeight * 5);
+  line(
+    col1,
+    y,
+    col1,
+    y + rowHeight * 5
+  );
+
+  line(
+    col2,
+    y,
+    col2,
+    y + rowHeight * 5
+  );
+
+  line(
+    col3,
+    y,
+    col3,
+    y + rowHeight * 5
+  );
 }
 
 
@@ -95,24 +112,41 @@ function drawAnalysisTableGraphics() {
 
 function drawFractalPlotGraphics(x, y) {
 
-  let depths = [1, 2, 3, 4, 5];
+  // Five growing depths.
+  // The final depth is the seed-derived depth:
+  //
+  // d = 4 + (6773 % 3)
+  // d = 6
+
+  let depths = [2, 3, 4, 5, 6];
+
   let averages = [];
 
 
-  // 3 runs for each depth.
+  // ----------------------------------------------------------
+  // THREE RUNS FOR EACH DEPTH
+  // ----------------------------------------------------------
+
   for (let depth of depths) {
 
     let total = 0;
 
     for (let run = 0; run < 3; run++) {
-      total += countFractalTriangles(depth);
+
+      total +=
+        countFractalTriangles(depth);
     }
 
-    averages.push(total / 3);
+    averages.push(
+      total / 3
+    );
   }
 
 
-  // Panel.
+  // ----------------------------------------------------------
+  // PLOT PANEL
+  // ----------------------------------------------------------
+
   fill(
     palette[3][0],
     palette[3][1],
@@ -128,18 +162,25 @@ function drawFractalPlotGraphics(x, y) {
 
   strokeWeight(2);
 
-  rect(x, y, 470, 260, 8);
+  rect(
+    x,
+    y,
+    470,
+    260,
+    8
+  );
 
 
-  // Graph position.
+  // ----------------------------------------------------------
+  // GRAPH POSITION
+  // ----------------------------------------------------------
+
   let gx = x + 55;
   let gy = y + 205;
 
   let graphWidth = 360;
   let graphHeight = 145;
-
-
-  // Axes.
+//axes
   stroke(
     palette[1][0],
     palette[1][1],
@@ -148,11 +189,23 @@ function drawFractalPlotGraphics(x, y) {
 
   strokeWeight(1);
 
-  line(gx, gy, gx + graphWidth, gy);
-  line(gx, gy, gx, gy - graphHeight);
+  // X axis.
+  line(
+    gx,
+    gy,
+    gx + graphWidth,
+    gy
+  );
 
+  // Y axis.
+  line(
+    gx,
+    gy,
+    gx,
+    gy - graphHeight
+  );
+//fractal plot line
 
-  // Plot line.
   noFill();
 
   stroke(
@@ -165,6 +218,7 @@ function drawFractalPlotGraphics(x, y) {
 
   beginShape();
 
+
   for (let i = 0; i < depths.length; i++) {
 
     let px = map(
@@ -175,21 +229,27 @@ function drawFractalPlotGraphics(x, y) {
       gx + graphWidth
     );
 
+
+    // Maximum is now 729
+
     let py = map(
       averages[i],
       0,
-      243,
+      729,
       gy,
       gy - graphHeight
     );
 
-    vertex(px, py);
+
+    vertex(
+      px,
+      py
+    );
   }
 
+
   endShape();
-
-
-  // Data points.
+//fractal data points
   for (let i = 0; i < depths.length; i++) {
 
     let px = map(
@@ -200,13 +260,15 @@ function drawFractalPlotGraphics(x, y) {
       gx + graphWidth
     );
 
+
     let py = map(
       averages[i],
       0,
-      243,
+      729,
       gy,
       gy - graphHeight
     );
+
 
     noStroke();
 
@@ -216,35 +278,43 @@ function drawFractalPlotGraphics(x, y) {
       palette[1][2]
     );
 
-    circle(px, py, 8);
+
+    circle(
+      px,
+      py,
+      8
+    );
   }
 }
 
-
-// ============================================================
-// SHAPE PLOT GRAPHICS
-// ============================================================
-
 function drawShapePlotGraphics(x, y) {
 
-  let sizes = [5, 10, 15, 20, 25];
+  let sizes = [
+    5,
+    10,
+    15,
+    20,
+    25
+  ];
+
   let averages = [];
 
-
-  // 3 runs for each scene size.
+//3 runs for each scene
   for (let size of sizes) {
 
     let total = 0;
 
     for (let run = 0; run < 3; run++) {
-      total += countShapeOperations(size);
+
+      total +=
+        countShapeOperations(size);
     }
 
-    averages.push(total / 3);
+    averages.push(
+      total / 3
+    );
   }
-
-
-  // Panel.
+//plot panel
   fill(
     palette[3][0],
     palette[3][1],
@@ -260,18 +330,21 @@ function drawShapePlotGraphics(x, y) {
 
   strokeWeight(2);
 
-  rect(x, y, 460, 260, 8);
+  rect(
+    x,
+    y,
+    460,
+    260,
+    8
+  );
 
-
-  // Graph position.
+//graph position
   let gx = x + 55;
   let gy = y + 205;
 
   let graphWidth = 350;
   let graphHeight = 145;
 
-
-  // Axes.
   stroke(
     palette[1][0],
     palette[1][1],
@@ -280,11 +353,26 @@ function drawShapePlotGraphics(x, y) {
 
   strokeWeight(1);
 
-  line(gx, gy, gx + graphWidth, gy);
-  line(gx, gy, gx, gy - graphHeight);
+
+  // X axis.
+  line(
+    gx,
+    gy,
+    gx + graphWidth,
+    gy
+  );
 
 
-  // Plot line.
+  // Y axis.
+  line(
+    gx,
+    gy,
+    gx,
+    gy - graphHeight
+  );
+
+//shape plot line
+
   noFill();
 
   stroke(
@@ -297,6 +385,7 @@ function drawShapePlotGraphics(x, y) {
 
   beginShape();
 
+
   for (let i = 0; i < sizes.length; i++) {
 
     let px = map(
@@ -307,6 +396,7 @@ function drawShapePlotGraphics(x, y) {
       gx + graphWidth
     );
 
+
     let py = map(
       averages[i],
       0,
@@ -315,13 +405,16 @@ function drawShapePlotGraphics(x, y) {
       gy - graphHeight
     );
 
-    vertex(px, py);
+
+    vertex(
+      px,
+      py
+    );
   }
 
+
   endShape();
-
-
-  // Data points.
+// shape data pounts
   for (let i = 0; i < sizes.length; i++) {
 
     let px = map(
@@ -332,6 +425,7 @@ function drawShapePlotGraphics(x, y) {
       gx + graphWidth
     );
 
+
     let py = map(
       averages[i],
       0,
@@ -339,6 +433,7 @@ function drawShapePlotGraphics(x, y) {
       gy,
       gy - graphHeight
     );
+
 
     noStroke();
 
@@ -348,43 +443,37 @@ function drawShapePlotGraphics(x, y) {
       palette[1][2]
     );
 
-    circle(px, py, 8);
+
+    circle(
+      px,
+      py,
+      8
+    );
   }
 }
 
-
-// ============================================================
-// FRACTAL OPERATION COUNTER
-// ============================================================
-//
-// T(0) = 1
-// T(d) = 3T(d - 1)
-
 function countFractalTriangles(depth) {
 
+  // Base case.
   if (depth === 0) {
+
     return 1;
   }
 
+  // Three recursive branches.
   return (
     countFractalTriangles(depth - 1) +
     countFractalTriangles(depth - 1) +
     countFractalTriangles(depth - 1)
   );
 }
-
-
-// ============================================================
-// SHAPE OPERATION COUNTER
-// ============================================================
-
 function countShapeOperations(n) {
 
   let operations = 0;
 
   for (let i = 0; i < n; i++) {
+
     operations++;
   }
-
   return operations;
 }

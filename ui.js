@@ -1,38 +1,33 @@
-
-// All text is drawn on uiLayer instead of directly in WEBGL.
-// This keeps the interface fixed and avoids WEBGL font issues.
-// ============================================================
-
 function drawUI() {
 
-  // Remove the previous UI frame.
+  // Remove previous UI frame.
   uiLayer.clear();
 
-  // Modules 1-4 use the normal information panel.
+  // Modules 1-4.
   if (currentModule !== 5) {
     drawModuleInfo();
   }
 
-  // Module 5 has its own analysis information.
+  // Module 5.
   else {
     drawAnalysisText();
   }
 
-  // Menu appears in every module.
+  // Menu appears on every module.
   drawBottomMenu();
-//put webgl on the 2d
+
+
+  // Put the 2-D UI over the WEBGL canvas.
   push();
 
   resetMatrix();
 
-  // Stationary camera used only for the UI.
   camera(
     0, 0, 800,
     0, 0, 0,
     0, 1, 0
   );
 
-  // Flat projection.
   ortho(
     -width / 2,
      width / 2,
@@ -44,25 +39,32 @@ function drawUI() {
 
   imageMode(CENTER);
 
-  // uiLayer has the same dimensions as the canvas,
-  // so its centre is placed at the canvas centre.
-  image(uiLayer, 0, 0);
+  image(
+    uiLayer,
+    0,
+    0
+  );
 
   pop();
 }
-//module info 1-4
+
+// MODULE INFORMATION - MODULES 1 TO 4
+
+
 function drawModuleInfo() {
 
   let panelHeight = 85;
 
   if (currentModule === 3) {
-    panelHeight = 100;
+    panelHeight = 85;
   }
 
   if (currentModule === 4) {
-    panelHeight = 115;
+    panelHeight = 90;
   }
-//info bar
+
+
+  // Information bar.
   uiLayer.noStroke();
 
   uiLayer.fill(
@@ -87,14 +89,17 @@ function drawModuleInfo() {
     palette[3][2]
   );
 
-  uiLayer.textAlign(LEFT, BASELINE);
-//module1
+  uiLayer.textAlign(
+    LEFT,
+    BASELINE
+  );
+///MODULE 1
   if (currentModule === 1) {
 
     uiLayer.textSize(18);
 
     uiLayer.text(
-      "SCENEFORGE - DYNAMIC COUNTRYSIDE FARM",
+      "SCENEFORGE: COUNTRYSIDE FARM",
       30,
       42
     );
@@ -110,19 +115,27 @@ function drawModuleInfo() {
       69
     );
   }
-//module2
+
+  // MODULE 2
+
+
   else if (currentModule === 2) {
 
     let expected =
-      Math.pow(3, FRACTAL_DEPTH);
+      Math.pow(
+        3,
+        FRACTAL_DEPTH
+      );
+
 
     uiLayer.textSize(18);
 
     uiLayer.text(
-      "MODULE 2 - SIERPINSKI GASKET",
+      "MODULE 2: SIERPINSKI GASKET",
       30,
       42
     );
+
 
     uiLayer.textSize(13);
 
@@ -137,48 +150,42 @@ function drawModuleInfo() {
       65
     );
 
+
     uiLayer.text(
-      "Triangles actually drawn: " +
+      "Triangles drawn: " +
       triangleCount,
       30,
       85
     );
   }
-//module3
+
+  // MODULE 3
+
   else if (currentModule === 3) {
 
     uiLayer.textSize(18);
 
     uiLayer.text(
-      "MODULE 3 - TRANSFORMATIONS",
+      "MODULE 3: TRANSFORMATIONS",
       30,
       42
     );
-
-    uiLayer.textSize(13);
-
-    uiLayer.text(
-      "Each seeded shape: translate -> rotate -> scale -> draw at origin",
-      30,
-      66
-    );
-
-    uiLayer.text(
-      "Order demo: translate -> rotate versus rotate -> translate",
-      30,
-      88
-    );
   }
-//module4
+
+
+  // MODULE 4
+
+
   else if (currentModule === 4) {
 
     uiLayer.textSize(18);
 
     uiLayer.text(
-      "MODULE 4 - 3-D VIEW",
+      "MODULE 4: 3-D VIEW",
       30,
       42
     );
+
 
     uiLayer.textSize(13);
 
@@ -189,26 +196,19 @@ function drawModuleInfo() {
       65
     );
 
+
     uiLayer.text(
-      "P = Perspective   O = Orthographic   SPACE = Toggle orbit",
+      "P = Perspective   O = Orthographic   SPACE = Pause/Resume orbit camera",
       30,
       87
     );
-
-    uiLayer.text(
-      "Camera: eye -> target -> up",
-      30,
-      108
-    );
   }
 }
-//analysis paragraph
+
+// MODULE 5 - ANALYSIS TEXT
+
 function drawAnalysisText() {
-
-  // ----------------------------------------------------------
-  // TITLE PANEL
-  // ----------------------------------------------------------
-
+//title
   uiLayer.noStroke();
 
   uiLayer.fill(
@@ -225,31 +225,27 @@ function drawAnalysisText() {
     10
   );
 
-
   uiLayer.fill(
     palette[3][0],
     palette[3][1],
     palette[3][2]
   );
 
-  uiLayer.textAlign(LEFT, BASELINE);
+  uiLayer.textAlign(
+    LEFT,
+    BASELINE
+  );
 
   uiLayer.textSize(18);
 
   uiLayer.text(
-    "MODULE 5 - MEASURE & COMPARE",
+    "MODULE 5: MEASURE & COMPARE",
     30,
     43
   );
 
-  uiLayer.textSize(13);
+  // ANALYSIS TABLE
 
-  uiLayer.text(
-    "4 measures | 5 input sizes | 3 runs each | 2 plots",
-    30,
-    68
-  );
-//analysis table list
   let x = 55;
   let y = 115;
   let rowHeight = 42;
@@ -267,8 +263,11 @@ function drawAnalysisText() {
   );
 
   uiLayer.textSize(11);
-  uiLayer.textAlign(LEFT, CENTER);
 
+  uiLayer.textAlign(
+    LEFT,
+    CENTER
+  );
 
   uiLayer.text(
     "Measure",
@@ -287,6 +286,7 @@ function drawAnalysisText() {
     col2 + 12,
     y + rowHeight / 2
   );
+
 
   uiLayer.text(
     "Growth class",
@@ -353,24 +353,31 @@ function drawAnalysisText() {
     "d",
     "Theta(d)"
   );
-//fractal
+
+  // PLOT 1 - FRACTAL
+
   uiLayer.fill(
     palette[2][0],
     palette[2][1],
     palette[2][2]
   );
 
-  uiLayer.textAlign(LEFT, BASELINE);
+  uiLayer.textAlign(
+    LEFT,
+    BASELINE
+  );
+
   uiLayer.textSize(14);
 
+
   uiLayer.text(
-    "Plot 1 - Fractal triangles vs depth",
+    "Plot 1: Fractal triangles vs depth",
     70,
     390
   );
 
+  // X-AXIS NUMBERS
 
-  // X-axis numbers.
   uiLayer.fill(
     palette[1][0],
     palette[1][1],
@@ -378,10 +385,23 @@ function drawAnalysisText() {
   );
 
   uiLayer.textSize(10);
-  uiLayer.textAlign(CENTER, BASELINE);
+
+  uiLayer.textAlign(
+    CENTER,
+    BASELINE
+  );
 
 
-  let depths = [1, 2, 3, 4, 5];
+  // Five growing depths ending at the
+  // correct seed-derived depth of 6.
+  let depths = [
+    2,
+    3,
+    4,
+    5,
+    6
+  ];
+
 
   for (let i = 0; i < depths.length; i++) {
 
@@ -392,6 +412,7 @@ function drawAnalysisText() {
       110,
       470
     );
+
 
     uiLayer.text(
       depths[i],
@@ -408,12 +429,19 @@ function drawAnalysisText() {
     605
   );
 
+  // Y-AXIS LABEL
 
-  // Y-axis label.
   uiLayer.push();
 
-  uiLayer.translate(82, 505);
-  uiLayer.rotate(-HALF_PI);
+  uiLayer.translate(
+    82,
+    505
+  );
+
+  uiLayer.rotate(
+    -HALF_PI
+  );
+
 
   uiLayer.text(
     "Triangles",
@@ -421,17 +449,24 @@ function drawAnalysisText() {
     0
   );
 
+
   uiLayer.pop();
 
+  //FRACTAL RESULTS
 
-  // Plot information.
-  uiLayer.textAlign(LEFT, BASELINE);
+  uiLayer.textAlign(
+    LEFT,
+    BASELINE
+  );
+
 
   uiLayer.text(
-    "Average counts: 3, 9, 27, 81, 243 | Ratio = 3",
+    "Average counts: 9, 27, 81, 243, 729 | Ratio = 3",
     70,
     610
   );
+
+  // PLOT2-SHAPES
 
   uiLayer.fill(
     palette[2][0],
@@ -440,16 +475,21 @@ function drawAnalysisText() {
   );
 
   uiLayer.textSize(14);
-  uiLayer.textAlign(LEFT, BASELINE);
+
+  uiLayer.textAlign(
+    LEFT,
+    BASELINE
+  );
+
 
   uiLayer.text(
-    "Plot 2 - Shapes drawn vs scene size",
+    "Plot 2: Shapes drawn vs scene size",
     600,
     390
   );
 
+  // X-AXIS NUMBERS
 
-  // X-axis numbers.
   uiLayer.fill(
     palette[1][0],
     palette[1][1],
@@ -457,10 +497,20 @@ function drawAnalysisText() {
   );
 
   uiLayer.textSize(10);
-  uiLayer.textAlign(CENTER, BASELINE);
 
+  uiLayer.textAlign(
+    CENTER,
+    BASELINE
+  );
 
-  let sizes = [5, 10, 15, 20, 25];
+  let sizes = [
+    5,
+    10,
+    15,
+    20,
+    25
+  ];
+
 
   for (let i = 0; i < sizes.length; i++) {
 
@@ -471,6 +521,7 @@ function drawAnalysisText() {
       640,
       990
     );
+
 
     uiLayer.text(
       sizes[i],
@@ -487,12 +538,18 @@ function drawAnalysisText() {
     605
   );
 
+  // Y-AXIS LABEL
 
-  // Y-axis label.
   uiLayer.push();
 
-  uiLayer.translate(612, 505);
-  uiLayer.rotate(-HALF_PI);
+  uiLayer.translate(
+    612,
+    505
+  );
+
+  uiLayer.rotate(
+    -HALF_PI
+  );
 
   uiLayer.text(
     "Operations",
@@ -501,8 +558,12 @@ function drawAnalysisText() {
   );
 
   uiLayer.pop();
-  // Plot information.
-  uiLayer.textAlign(LEFT, BASELINE);
+  
+//shape results
+  uiLayer.textAlign(
+    LEFT,
+    BASELINE
+  );
 
   uiLayer.text(
     "Average counts: 5, 10, 15, 20, 25 | C(n) = n",
@@ -510,7 +571,9 @@ function drawAnalysisText() {
     610
   );
 }
-//draw one analysis
+
+// DRAW ONE ANALYSIS TABLE ROW
+
 function drawAnalysisRow(
   x,
   col1,
@@ -529,11 +592,13 @@ function drawAnalysisRow(
     y
   );
 
+
   uiLayer.text(
     operation,
     col1 + 12,
     y
   );
+
 
   uiLayer.text(
     count,
@@ -541,15 +606,20 @@ function drawAnalysisRow(
     y
   );
 
+
   uiLayer.text(
     growth,
     col3 + 12,
     y
   );
 }
-//bottom menu
+
+//BOTTOM MENU
+
+
 function drawBottomMenu() {
-//menu bar
+
+  // Menu bar.
   uiLayer.noStroke();
 
   uiLayer.fill(
@@ -558,6 +628,7 @@ function drawBottomMenu() {
     palette[1][2]
   );
 
+
   uiLayer.rect(
     0,
     height - 55,
@@ -565,12 +636,13 @@ function drawBottomMenu() {
     55
   );
 
-//5 menu options
+
+  // Five menu options.
   let menuItems = [
     "1 SHAPES & COLOUR",
     "2 SIERPINSKI",
     "3 TRANSFORM",
-    "4 3-D VIEW",
+    "4 3D VIEW",
     "5 MEASURE & COMPARE"
   ];
 
@@ -596,6 +668,7 @@ function drawBottomMenu() {
       );
     }
 
+
     // Other modules = yellow.
     else {
 
@@ -606,8 +679,14 @@ function drawBottomMenu() {
       );
     }
 
+
     uiLayer.textSize(12);
-    uiLayer.textAlign(LEFT, BASELINE);
+
+    uiLayer.textAlign(
+      LEFT,
+      BASELINE
+    );
+
 
     uiLayer.text(
       menuItems[i],
@@ -615,15 +694,24 @@ function drawBottomMenu() {
       height - 27
     );
   }
-//my info
+
+//student info
+
+
   uiLayer.fill(
     palette[3][0],
     palette[3][1],
     palette[3][2]
   );
 
+
   uiLayer.textSize(9);
-  uiLayer.textAlign(RIGHT, BASELINE);
+
+  uiLayer.textAlign(
+    RIGHT,
+    BASELINE
+  );
+
 
   uiLayer.text(
     "ID: " +
@@ -635,6 +723,8 @@ function drawBottomMenu() {
   );
 
 
-  // Restore default text alignment.
-  uiLayer.textAlign(LEFT, BASELINE);
+  uiLayer.textAlign(
+    LEFT,
+    BASELINE
+  );
 }

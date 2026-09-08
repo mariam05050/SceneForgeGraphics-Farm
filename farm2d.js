@@ -1,17 +1,3 @@
-// ============================================================
-// MODULE 1 - SHAPES & COLOUR
-// Dynamic Countryside Farm
-// ============================================================
-//
-// The farm uses basic graphics primitives.
-// The required 13 shapes come from sceneShapes[] in data.js.
-// ============================================================
-
-
-// ------------------------------------------------------------
-// COMPLETE FARM SCENE
-// ------------------------------------------------------------
-
 function drawFarmScene() {
 
   background(
@@ -37,12 +23,7 @@ function drawFarmScene() {
   // Required seed-generated shapes.
   drawSeededShapes();
 }
-
-
-// ------------------------------------------------------------
-// SUN
-// ------------------------------------------------------------
-
+//sun
 function drawSun() {
 
   push();
@@ -68,12 +49,7 @@ function drawSun() {
 
   pop();
 }
-
-
-// ------------------------------------------------------------
-// CLOUDS
-// ------------------------------------------------------------
-
+//clouds
 function drawClouds() {
 
   drawCloud(160, 115, 1.0);
@@ -81,12 +57,7 @@ function drawClouds() {
   drawCloud(740, 95, 0.65);
 }
 
-
-
-// ------------------------------------------------------------
-// HILLS
-// ------------------------------------------------------------
-
+//hills
 function drawHills() {
 
   noStroke();
@@ -102,12 +73,7 @@ function drawHills() {
   ellipse(510, 395, 620, 235);
   ellipse(930, 405, 550, 210);
 }
-
-
-// ------------------------------------------------------------
-// FIELD
-// ------------------------------------------------------------
-
+//field
 function drawField() {
 
   // Grass.
@@ -131,11 +97,7 @@ function drawField() {
   );
 }
 
-
-// ------------------------------------------------------------
-// FARMHOUSE
-// ------------------------------------------------------------
-
+//farmhouse
 function drawHouse() {
 
   push();
@@ -171,12 +133,7 @@ function drawHouse() {
 
   pop();
 }
-
-
-// ------------------------------------------------------------
-// BARN
-// ------------------------------------------------------------
-
+//barn
 function drawBarn() {
 
   push();
@@ -216,18 +173,7 @@ function drawBarn() {
 
   pop();
 }
-
-
-// ------------------------------------------------------------
-// WINDMILL
-// ------------------------------------------------------------
-//
-// The windmill naturally demonstrates rotation.
-//
-// translate() moves the origin to the hub.
-// rotate() rotates the blades around that local origin.
-// push()/pop() isolate the transformations.
-
+//windmill
 function drawWindmill() {
 
   push();
@@ -284,11 +230,7 @@ function drawWindmill() {
 
   pop();
 }
-
-
-// ------------------------------------------------------------
-// TREES
-// ------------------------------------------------------------
+//trees
 
 function drawTrees() {
 
@@ -342,10 +284,6 @@ function drawFence() {
 }
 
 
-// ------------------------------------------------------------
-// CROPS
-// ------------------------------------------------------------
-//
 // Nested loops create rows of plants.
 
 function drawCropRows() {
@@ -392,11 +330,6 @@ function drawCrop(x, y, cropScale) {
   pop();
 }
 
-
-// ------------------------------------------------------------
-// HAY BALES
-// ------------------------------------------------------------
-
 function drawHayBales() {
 
   drawHayBale(610, 530, 1.0);
@@ -427,11 +360,6 @@ function drawHayBale(x, y, hayScale) {
   pop();
 }
 
-
-// ------------------------------------------------------------
-// REQUIRED SEEDED SHAPES
-// ------------------------------------------------------------
-//
 // These are the 13 shapes generated in data.js.
 // Their properties are not hard-coded here.
 
@@ -441,11 +369,7 @@ function drawSeededShapes() {
     drawSeededShape(shape);
   }
 }
-
-
-// ------------------------------------------------------------
-// DRAW ONE SEEDED SHAPE
-// ------------------------------------------------------------
+//draw one seeded shape
 
 function drawSeededShape(shape) {
 
