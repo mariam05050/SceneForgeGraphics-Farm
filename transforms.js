@@ -1,13 +1,21 @@
+// ============================================================
 // MODULE 3 - TRANSFORMATIONS
-
+// ============================================================
+//
 // Required concepts:
 // push() / pop()
 // translate()
 // rotate()
 // scale()
 // transformation order
+//
 // The shape data comes from sceneShapes[].
+// ============================================================
+
+
+// ------------------------------------------------------------
 // DRAW MODULE 3
+// ------------------------------------------------------------
 
 function drawTransformModule() {
 
@@ -16,21 +24,24 @@ function drawTransformModule() {
     palette[0][1],
     palette[0][2]
   );
-  drawTransformTitle();
 
-  // Draw the seeded shapes using their transformations.
+  // Apply transformations to the seeded shapes.
   drawTransformedShapes();
 
-  // Demonstrate why transformation order matters.
+  // Show why transformation order matters.
   drawOrderDemo();
 }
 
-// DRAW ALL SEEDED SHAPES WITH TRANSFORMS
+
+// ------------------------------------------------------------
+// TRANSFORM THE 13 SEEDED SHAPES
+// ------------------------------------------------------------
 
 function drawTransformedShapes() {
+
   for (let shape of sceneShapes) {
 
-    // push() saves the current coordinate system.
+    // Save the current coordinate system.
     push();
 
     // 1. Move to the seed-generated position.
@@ -42,16 +53,21 @@ function drawTransformedShapes() {
     // 3. Scale by the seed-generated value.
     scale(shape.scale);
 
-    // Draw at the LOCAL origin (0, 0).
+    // Draw at the local origin (0, 0).
     drawTransformShape(shape);
 
-    // Restore the coordinate system.
+    // Restore the previous coordinate system.
     pop();
   }
 }
+
+
+// ------------------------------------------------------------
 // DRAW ONE TRANSFORMED SHAPE
+// ------------------------------------------------------------
 
 function drawTransformShape(shape) {
+
   let col = palette[shape.paletteIndex];
 
   fill(col[0], col[1], col[2]);
@@ -64,25 +80,18 @@ function drawTransformShape(shape) {
 
   strokeWeight(2);
 
+
   if (shape.type === "rect") {
 
     rectMode(CENTER);
-
-    rect(
-      0,
-      0,
-      shape.size,
-      shape.size * 0.7
-    );
+    rect(0, 0, shape.size, shape.size * 0.7);
   }
+
   else if (shape.type === "circle") {
 
-    circle(
-      0,
-      0,
-      shape.size
-    );
+    circle(0, 0, shape.size);
   }
+
   else {
 
     let s = shape.size;
@@ -94,58 +103,116 @@ function drawTransformShape(shape) {
     );
   }
 }
-// ORDER-MATTERS DEMONSTRATION
-// We use the SAME rectangle and the SAME two transforms.
-// Left: translate() then rotate()
-// Right: rotate() then translate()
-// The results are different because transformation
-// order matters.
+
+
+// ------------------------------------------------------------
+// TRANSFORMATION ORDER DEMONSTRATION
+// ------------------------------------------------------------
+//
+// LEFT:
+// translate -> rotate
+// The blade spins around its own pivot.
+//
+// RIGHT:
+// rotate -> translate
+// The translation follows the rotated axes,
+// so the blade moves around the pivot.
+//
+// This demonstrates that transformation order matters.
+// ------------------------------------------------------------
 
 function drawOrderDemo() {
 
   let angle = frameCount * 0.02;
 
-  // Divider.
-  stroke(palette[1][0], palette[1][1], palette[1][2]);
+
+  // ----------------------------------------------------------
+  // DIVIDER
+  // ----------------------------------------------------------
+
+  stroke(
+    palette[1][0],
+    palette[1][1],
+    palette[1][2]
+  );
+
   strokeWeight(2);
-  line(width / 2, 410, width / 2, 650);
 
+  line(
+    width / 2,
+    410,
+    width / 2,
+    625
+  );
+
+
+  // ----------------------------------------------------------
   // LEFT: TRANSLATE -> ROTATE
-
-  // First move the origin to (280, 525).
-  // Then rotate there.
-  //
-  // Result: the blade spins IN PLACE.
+  // ----------------------------------------------------------
 
   push();
-  translate(280, 525);
+
+  // Move to the desired position first.
+  translate(280, 515);
+
+  // Then rotate around that new origin.
   rotate(angle);
+
   drawDemoBlade();
+
   pop();
-  // Mark the left pivot.
+
+
+  // Mark the pivot.
   noStroke();
-  fill(palette[1][0], palette[1][1], palette[1][2]);
-  circle(280, 525, 8);
-  
+
+  fill(
+    palette[1][0],
+    palette[1][1],
+    palette[1][2]
+  );
+
+  circle(280, 515, 8);
+
+
+  // ----------------------------------------------------------
   // RIGHT: ROTATE -> TRANSLATE
-  // We first move to a visible demonstration centre.
-  // Then: rotate -> translate
-  // Because the axes rotate BEFORE the translation,
-  // the blade travels around the centre.
+  // ----------------------------------------------------------
+
   push();
-  translate(820, 525);
+
+  // Position the demonstration centre.
+  translate(820, 515);
+
+  // Rotate the coordinate system first.
   rotate(angle);
+
+  // Translation now follows the rotated x-axis.
   translate(110, 0);
+
   drawDemoBlade();
+
   pop();
+
+
   // Mark the orbit centre.
   noStroke();
-  fill(palette[1][0], palette[1][1], palette[1][2]);
-  circle(820, 525, 8);
+
+  fill(
+    palette[1][0],
+    palette[1][1],
+    palette[1][2]
+  );
+
+  circle(820, 515, 8);
 
 
-  // Draw the orbit path so the movement is obvious.
+  // ----------------------------------------------------------
+  // ORBIT PATH
+  // ----------------------------------------------------------
+
   noFill();
+
   stroke(
     palette[1][0],
     palette[1][1],
@@ -154,48 +221,66 @@ function drawOrderDemo() {
   );
 
   strokeWeight(1);
-  circle(820, 525, 220);
+
+  // Diameter = 220 because orbit radius = 110.
+  circle(820, 515, 220);
 
 
+  // ----------------------------------------------------------
   // LABELS
+  // ----------------------------------------------------------
+
   noStroke();
-  fill(palette[1][0], palette[1][1], palette[1][2]);
+
+  fill(
+    palette[1][0],
+    palette[1][1],
+    palette[1][2]
+  );
 
   textAlign(CENTER);
+
   textSize(16);
 
   text(
     "TRANSLATE -> ROTATE",
     280,
-    650
+    625
   );
 
   text(
     "ROTATE -> TRANSLATE",
     820,
-    650
+    625
   );
 
+
   textSize(12);
+
   text(
     "spins in place",
     280,
-    670
+    645
   );
 
   text(
     "moves around the pivot",
     820,
-    670
+    645
   );
 
-  textAlign(LEFT);
+
+  textAlign(LEFT, BASELINE);
 }
-// DEMO BLADE
-// A windmill-style blade makes rotation easy to see.
+
+
+// ------------------------------------------------------------
+// WINDMILL-STYLE DEMO BLADE
+// ------------------------------------------------------------
 
 function drawDemoBlade() {
 
+  // Blade.
   fill(
     palette[3][0],
     palette[3][1],
@@ -209,6 +294,7 @@ function drawDemoBlade() {
   );
 
   strokeWeight(3);
+
   rectMode(CENTER);
 
   rect(
@@ -218,7 +304,8 @@ function drawDemoBlade() {
     35
   );
 
-  // Mark the local origin.
+
+  // Local origin / pivot.
   fill(
     palette[2][0],
     palette[2][1],
@@ -229,52 +316,5 @@ function drawDemoBlade() {
     0,
     0,
     20
-  );
-}
-
-// MODULE TITLE
-function drawTransformTitle() {
-
-  noStroke();
-
-  fill(
-    palette[1][0],
-    palette[1][1],
-    palette[1][2]
-  );
-
-  rect(
-    15,
-    15,
-    600,
-    90,
-    10
-  );
-  
-  fill(
-    palette[3][0],
-    palette[3][1],
-    palette[3][2]
-  );
-
-  textSize(18);
-  text(
-    "MODULE 3 - TRANSFORMATIONS",
-    30,
-    42
-  );
-
-  textSize(13);
-
-  text(
-    "Each seeded shape: translate -> rotate -> scale -> draw at origin",
-    30,
-    67
-  );
-
-  text(
-    "Bottom demonstration: changing transform order changes the result",
-    30,
-    89
   );
 }

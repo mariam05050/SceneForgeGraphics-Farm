@@ -1,21 +1,36 @@
-
+// ============================================================
 // MODULE 2 - SIERPINSKI GASKET
+// ============================================================
+//
+// Recursive Sierpinski construction.
+//
+// At every level:
+// 1 triangle -> 3 smaller triangles
+//
+// Therefore:
+// T(d) = 3^d
+// ============================================================
+
+
 // Counts the triangles actually drawn.
 let triangleCount = 0;
 
+
+// ------------------------------------------------------------
 // DRAW MODULE 2
+// ------------------------------------------------------------
+
 function drawFractalModule() {
 
-  // Background.
+  // Sky.
   background(
     palette[0][0],
     palette[0][1],
     palette[0][2]
   );
 
-  // Green grass at the bottom.
+  // Green field.
   noStroke();
-
   fill(
     palette[1][0],
     palette[1][1],
@@ -25,7 +40,8 @@ function drawFractalModule() {
   rect(0, 500, width, 200);
 
 
-  // Reset every frame because draw() repeats.
+  // draw() repeats every frame,
+  // so reset the counter before drawing.
   triangleCount = 0;
 
 
@@ -35,26 +51,36 @@ function drawFractalModule() {
   let c = createVector(880, 560);
 
 
-  // Start the recursive algorithm.
-  sierpinski(a, b, c, FRACTAL_DEPTH, 0);
-
-
-  // Display depth and triangle count.
-  drawFractalInfo();
+  // Start recursion.
+  sierpinski(
+    a,
+    b,
+    c,
+    FRACTAL_DEPTH,
+    0
+  );
 }
 
+
+// ------------------------------------------------------------
 // RECURSIVE SIERPINSKI FUNCTION
+// ------------------------------------------------------------
 
 function sierpinski(a, b, c, depth, level) {
 
   // BASE CASE:
-  // At depth 0, draw one triangle and stop.
+  // draw one triangle and stop this branch.
   if (depth === 0) {
 
-    // Choose colour based on recursion level.
-    let col = palette[level % PALETTE_COUNT];
+    // Colour based on recursion level.
+    let col =
+      palette[level % PALETTE_COUNT];
 
-    fill(col[0], col[1], col[2]);
+    fill(
+      col[0],
+      col[1],
+      col[2]
+    );
 
     stroke(
       palette[3][0],
@@ -64,26 +90,38 @@ function sierpinski(a, b, c, depth, level) {
 
     strokeWeight(1);
 
+
     triangle(
       a.x, a.y,
       b.x, b.y,
       c.x, c.y
     );
 
+
     triangleCount++;
 
     return;
   }
 
-  // Find the midpoint of each side.
-  // 0.5 means halfway between the two vertices.
+
+  // ----------------------------------------------------------
+  // MIDPOINTS
+  // ----------------------------------------------------------
+  //
+  // lerp(..., 0.5) gives the point halfway
+  // between two vertices.
+
   let ab = p5.Vector.lerp(a, b, 0.5);
   let bc = p5.Vector.lerp(b, c, 0.5);
   let ca = p5.Vector.lerp(c, a, 0.5);
 
 
-  // RECURSIVE CASE:
+  // ----------------------------------------------------------
+  // RECURSIVE CASE
+  // ----------------------------------------------------------
+  //
   // Recurse into the three corner triangles.
+  // The centre triangle is left empty.
 
   // Top.
   sierpinski(
@@ -94,6 +132,7 @@ function sierpinski(a, b, c, depth, level) {
     level + 1
   );
 
+
   // Bottom-left.
   sierpinski(
     ab,
@@ -103,6 +142,7 @@ function sierpinski(a, b, c, depth, level) {
     level + 1
   );
 
+
   // Bottom-right.
   sierpinski(
     ca,
@@ -110,59 +150,5 @@ function sierpinski(a, b, c, depth, level) {
     c,
     depth - 1,
     level + 1
-  );
-}
-
-// FRACTAL INFORMATION
-
-function drawFractalInfo() {
-
-  let expectedTriangles =
-    Math.pow(3, FRACTAL_DEPTH);
-
-  //info panel.
-  noStroke();
-
-  fill(
-    palette[1][0],
-    palette[1][1],
-    palette[1][2]
-  );
-
-  rect(15, 15, 540, 95, 10);
-
-
-  // Text.
-  fill(
-    palette[3][0],
-    palette[3][1],
-    palette[3][2]
-  );
-
-  textSize(18);
-
-  text(
-    "MODULE 2 - SIERPINSKI GASKET",
-    30,
-    42
-  );
-
-  textSize(13);
-  text(
-    "Depth: " +
-    FRACTAL_DEPTH +
-    "   Expected: 3^" +
-    FRACTAL_DEPTH +
-    " = " +
-    expectedTriangles,
-    30,
-    68
-  );
-
-  text(
-    "Triangles actually drawn: " +
-    triangleCount,
-    30,
-    91
   );
 }

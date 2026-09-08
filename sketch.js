@@ -1,73 +1,145 @@
 // SCENEFORGE - MAIN PROGRAM
+// Student ID: 202316773
+
+// Current module:
 // 1 = Shapes & Colour
 // 2 = Sierpinski
-// 3 = Transform
+// 3 = Transformations
 // 4 = 3-D View
 // 5 = Measure & Compare
 
 let currentModule = 1;
+
+
+// Separate 2-D layer used for text and the menu.
+// This avoids WEBGL text problems.
+let uiLayer;
+
 function setup() {
 
-  createCanvas(1100, 700);
+  // WEBGL is required for Module 4.
+  createCanvas(1100, 700, WEBGL);
+
+
+  // Normal 2-D graphics layer for titles and menu.
+  uiLayer = createGraphics(1100, 700);
+
+
+  // Generate the 13 shapes from the student ID seed.
   generateScene();
+
+
+  // Print generated data to the console.
   printSceneData();
 }
 
 function draw() {
 
-  if (currentModule === 1) {
-    drawFarmScene();
+  // Module 4 controls its own 3-D camera and projection.
+
+  if (currentModule === 4) {
+
+    draw3DFarm();
   }
 
-  else if (currentModule === 2) {
-    drawFractalModule();
-  }
-
-  else if (currentModule === 3) {
-    drawTransformModule();
-  }
+  // These use normal top-left-style coordinates.
 
   else {
-    drawNotImplemented();
+
+    reset2DView();
+
+
+    // Module 1 - Shapes & Colour.
+    if (currentModule === 1) {
+
+      drawFarmScene();
+    }
+
+
+    // Module 2 - Sierpinski.
+    else if (currentModule === 2) {
+
+      drawFractalModule();
+    }
+
+
+    // Module 3 - Transformations.
+    else if (currentModule === 3) {
+
+      drawTransformModule();
+    }
+
+
+    // Module 5 - Measure & Compare.
+    else if (currentModule === 5) {
+
+      drawMeasurementModule();
+    }
   }
-  drawMenu();
+
+
+  // Draw fixed titles and menu over the scene.
+  drawUI();
 }
 
-// Press 1-5 to change modules.
+// WEBGL places (0,0) in the centre.
+//
+// Modules 1, 2, 3 and 5 were designed using normal
+// top-left coordinates.
+//
+// This creates a flat orthographic view and moves
+// the origin back to the top-left.
+
+function reset2DView() {
+
+  // Remove transformations left from the previous frame.
+  resetMatrix();
+
+
+  // Stationary camera facing the canvas.
+  camera(
+    0, 0, 800,   // eye
+    0, 0, 0,     // target
+    0, 1, 0      // up
+  );
+
+
+  // Flat orthographic projection.
+  ortho(
+    -width / 2,
+     width / 2,
+    -height / 2,
+     height / 2,
+    -1000,
+     2000
+  );
+
+
+  // Convert WEBGL centre origin to top-left origin.
+  translate(
+    -width / 2,
+    -height / 2
+  );
+}
 function keyPressed() {
 
+  // Switch modules.
   if (key === "1") currentModule = 1;
   else if (key === "2") currentModule = 2;
   else if (key === "3") currentModule = 3;
   else if (key === "4") currentModule = 4;
   else if (key === "5") currentModule = 5;
-}
 
-// Temporary screen for unfinished modules.
-function drawNotImplemented() {
+  // Module 4 controls.
+  else if (currentModule === 4 && (key === "p" || key === "P")) {
+    projectionMode = "perspective";
+  }
 
-  background(
-    palette[0][0],
-    palette[0][1],
-    palette[0][2]
-  );
+  else if (currentModule === 4 && (key === "o" || key === "O")) {
+    projectionMode = "orthographic";
+  }
 
-  fill(
-    palette[1][0],
-    palette[1][1],
-    palette[1][2]
-  );
-  
-  noStroke();
-  textAlign(CENTER, CENTER);
-  textSize(32);
-  text(
-    "Module " +
-    currentModule +
-    " - Not implemented yet",
-    width / 2,
-    height / 2
-  );
-
-  textAlign(LEFT, BASELINE);
+  else if (currentModule === 4 && key === " ") {
+    cameraOrbit = !cameraOrbit;
+  }
 }
