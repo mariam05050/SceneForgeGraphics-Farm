@@ -1,34 +1,38 @@
+
+// All text is drawn on uiLayer instead of directly in WEBGL.
+// This keeps the interface fixed and avoids WEBGL font issues.
 // ============================================================
-// SCENEFORGE - 2-D USER INTERFACE
-// ============================================================
+
 function drawUI() {
 
-  // Clear the old UI.
-uiLayer.clear();
+  // Remove the previous UI frame.
+  uiLayer.clear();
 
-if (currentModule !== 5) {
-  drawModuleInfo();
-}
-else {
-  drawAnalysisText();
-}
+  // Modules 1-4 use the normal information panel.
+  if (currentModule !== 5) {
+    drawModuleInfo();
+  }
 
-drawBottomMenu();
-  
-  // Save the current WEBGL state.
+  // Module 5 has its own analysis information.
+  else {
+    drawAnalysisText();
+  }
+
+  // Menu appears in every module.
+  drawBottomMenu();
+//put webgl on the 2d
   push();
 
-  // Reset camera and matrices completely.
   resetMatrix();
 
-  // Put a simple camera directly in front of the canvas.
+  // Stationary camera used only for the UI.
   camera(
     0, 0, 800,
     0, 0, 0,
     0, 1, 0
   );
 
-  // Flat projection ONLY for the UI.
+  // Flat projection.
   ortho(
     -width / 2,
      width / 2,
@@ -38,22 +42,15 @@ drawBottomMenu();
     2000
   );
 
-  // Draw the UI exactly over the screen.
   imageMode(CENTER);
 
-  image(
-    uiLayer,
-    0,
-    0
-  );
+  // uiLayer has the same dimensions as the canvas,
+  // so its centre is placed at the canvas centre.
+  image(uiLayer, 0, 0);
 
-  // Restore Module 4's graphics state.
   pop();
 }
-
-// MODULE INFORMATION
-// ============================================================
-
+//module info 1-4
 function drawModuleInfo() {
 
   let panelHeight = 85;
@@ -65,9 +62,7 @@ function drawModuleInfo() {
   if (currentModule === 4) {
     panelHeight = 115;
   }
-
-
-  // Panel.
+//info bar
   uiLayer.noStroke();
 
   uiLayer.fill(
@@ -85,7 +80,7 @@ function drawModuleInfo() {
   );
 
 
-  // Text.
+  // Text colour.
   uiLayer.fill(
     palette[3][0],
     palette[3][1],
@@ -93,9 +88,7 @@ function drawModuleInfo() {
   );
 
   uiLayer.textAlign(LEFT, BASELINE);
-
-
-  // MODULE 1
+//module1
   if (currentModule === 1) {
 
     uiLayer.textSize(18);
@@ -117,12 +110,11 @@ function drawModuleInfo() {
       69
     );
   }
-
-
-  // MODULE 2
+//module2
   else if (currentModule === 2) {
 
-    let expected = Math.pow(3, FRACTAL_DEPTH);
+    let expected =
+      Math.pow(3, FRACTAL_DEPTH);
 
     uiLayer.textSize(18);
 
@@ -152,9 +144,7 @@ function drawModuleInfo() {
       85
     );
   }
-
-
-  // MODULE 3
+//module3
   else if (currentModule === 3) {
 
     uiLayer.textSize(18);
@@ -179,9 +169,7 @@ function drawModuleInfo() {
       88
     );
   }
-
-
-  // MODULE 4
+//module4
   else if (currentModule === 4) {
 
     uiLayer.textSize(18);
@@ -195,7 +183,8 @@ function drawModuleInfo() {
     uiLayer.textSize(13);
 
     uiLayer.text(
-      "Projection: " + projectionMode.toUpperCase(),
+      "Projection: " +
+      projectionMode.toUpperCase(),
       30,
       65
     );
@@ -213,17 +202,11 @@ function drawModuleInfo() {
     );
   }
 }
-
-
-// ============================================================
-// BOTTOM MENU// ============================================================
-// MODULE 5 - ANALYSIS TEXT
-// ============================================================
-
+//analysis paragraph
 function drawAnalysisText() {
 
   // ----------------------------------------------------------
-  // TITLE
+  // TITLE PANEL
   // ----------------------------------------------------------
 
   uiLayer.noStroke();
@@ -266,12 +249,7 @@ function drawAnalysisText() {
     30,
     68
   );
-
-
-  // ----------------------------------------------------------
-  // TABLE TEXT
-  // ----------------------------------------------------------
-
+//analysis table list
   let x = 55;
   let y = 115;
   let rowHeight = 42;
@@ -281,6 +259,7 @@ function drawAnalysisText() {
   let col3 = x + 745;
 
 
+  // Header colour.
   uiLayer.fill(
     palette[2][0],
     palette[2][1],
@@ -291,7 +270,6 @@ function drawAnalysisText() {
   uiLayer.textAlign(LEFT, CENTER);
 
 
-  // Header.
   uiLayer.text(
     "Measure",
     x + 12,
@@ -317,7 +295,7 @@ function drawAnalysisText() {
   );
 
 
-  // Table rows.
+  // Table row colour.
   uiLayer.fill(
     palette[1][0],
     palette[1][1],
@@ -375,12 +353,7 @@ function drawAnalysisText() {
     "d",
     "Theta(d)"
   );
-
-
-  // ----------------------------------------------------------
-  // FRACTAL PLOT TEXT
-  // ----------------------------------------------------------
-
+//fractal
   uiLayer.fill(
     palette[2][0],
     palette[2][1],
@@ -397,6 +370,7 @@ function drawAnalysisText() {
   );
 
 
+  // X-axis numbers.
   uiLayer.fill(
     palette[1][0],
     palette[1][1],
@@ -427,6 +401,7 @@ function drawAnalysisText() {
   }
 
 
+  // X-axis label.
   uiLayer.text(
     "Depth d",
     290,
@@ -434,6 +409,22 @@ function drawAnalysisText() {
   );
 
 
+  // Y-axis label.
+  uiLayer.push();
+
+  uiLayer.translate(82, 505);
+  uiLayer.rotate(-HALF_PI);
+
+  uiLayer.text(
+    "Triangles",
+    0,
+    0
+  );
+
+  uiLayer.pop();
+
+
+  // Plot information.
   uiLayer.textAlign(LEFT, BASELINE);
 
   uiLayer.text(
@@ -442,11 +433,6 @@ function drawAnalysisText() {
     610
   );
 
-
-  // ----------------------------------------------------------
-  // SHAPE PLOT TEXT
-  // ----------------------------------------------------------
-
   uiLayer.fill(
     palette[2][0],
     palette[2][1],
@@ -454,6 +440,7 @@ function drawAnalysisText() {
   );
 
   uiLayer.textSize(14);
+  uiLayer.textAlign(LEFT, BASELINE);
 
   uiLayer.text(
     "Plot 2 - Shapes drawn vs scene size",
@@ -462,6 +449,7 @@ function drawAnalysisText() {
   );
 
 
+  // X-axis numbers.
   uiLayer.fill(
     palette[1][0],
     palette[1][1],
@@ -492,6 +480,7 @@ function drawAnalysisText() {
   }
 
 
+  // X-axis label.
   uiLayer.text(
     "Scene size n",
     815,
@@ -499,6 +488,20 @@ function drawAnalysisText() {
   );
 
 
+  // Y-axis label.
+  uiLayer.push();
+
+  uiLayer.translate(612, 505);
+  uiLayer.rotate(-HALF_PI);
+
+  uiLayer.text(
+    "Operations",
+    0,
+    0
+  );
+
+  uiLayer.pop();
+  // Plot information.
   uiLayer.textAlign(LEFT, BASELINE);
 
   uiLayer.text(
@@ -507,12 +510,7 @@ function drawAnalysisText() {
     610
   );
 }
-
-
-// ============================================================
-// ONE ANALYSIS TABLE ROW
-// ============================================================
-
+//draw one analysis
 function drawAnalysisRow(
   x,
   col1,
@@ -525,7 +523,11 @@ function drawAnalysisRow(
   growth
 ) {
 
-  uiLayer.text(measure, x + 12, y);
+  uiLayer.text(
+    measure,
+    x + 12,
+    y
+  );
 
   uiLayer.text(
     operation,
@@ -544,26 +546,26 @@ function drawAnalysisRow(
     col3 + 12,
     y
   );
-
 }
-// ============================================================
-// BOTTOM MENU
-// ============================================================
-
+//bottom menu
 function drawBottomMenu() {
-
-  // Green menu bar.
+//menu bar
   uiLayer.noStroke();
+
   uiLayer.fill(
     palette[1][0],
     palette[1][1],
     palette[1][2]
   );
 
-  uiLayer.rect(0, height - 55, width, 55);
+  uiLayer.rect(
+    0,
+    height - 55,
+    width,
+    55
+  );
 
-
-  // Five required menu options.
+//5 menu options
   let menuItems = [
     "1 SHAPES & COLOUR",
     "2 SIERPINSKI",
@@ -571,6 +573,7 @@ function drawBottomMenu() {
     "4 3-D VIEW",
     "5 MEASURE & COMPARE"
   ];
+
 
   let positions = [
     20,
@@ -581,11 +584,11 @@ function drawBottomMenu() {
   ];
 
 
-  // Draw menu options.
   for (let i = 0; i < menuItems.length; i++) {
 
     // Selected module = red.
     if (currentModule === i + 1) {
+
       uiLayer.fill(
         palette[2][0],
         palette[2][1],
@@ -595,6 +598,7 @@ function drawBottomMenu() {
 
     // Other modules = yellow.
     else {
+
       uiLayer.fill(
         palette[3][0],
         palette[3][1],
@@ -611,9 +615,7 @@ function drawBottomMenu() {
       height - 27
     );
   }
-
-
-  // Student ID and seed.
+//my info
   uiLayer.fill(
     palette[3][0],
     palette[3][1],
@@ -624,10 +626,15 @@ function drawBottomMenu() {
   uiLayer.textAlign(RIGHT, BASELINE);
 
   uiLayer.text(
-    "ID: " + STUDENT_ID + "   Seed: " + SEED,
+    "ID: " +
+    STUDENT_ID +
+    "   Seed: " +
+    SEED,
     width - 15,
     height - 8
   );
 
+
+  // Restore default text alignment.
   uiLayer.textAlign(LEFT, BASELINE);
 }
