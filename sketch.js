@@ -1,5 +1,4 @@
 // SCENEFORGE - MAIN PROGRAM
-
 // 1 = Shapes & Colour
 // 2 = Sierpinski
 // 3 = Transform
@@ -7,17 +6,12 @@
 // 5 = Measure & Compare
 
 let currentModule = 1;
-
-
 function setup() {
 
   createCanvas(1100, 700);
-
   generateScene();
-
   printSceneData();
 }
-
 
 function draw() {
 
@@ -29,14 +23,15 @@ function draw() {
     drawFractalModule();
   }
 
+  else if (currentModule === 3) {
+    drawTransformModule();
+  }
+
   else {
     drawNotImplemented();
   }
-
-
   drawMenu();
 }
-
 
 // Press 1-5 to change modules.
 function keyPressed() {
@@ -47,7 +42,6 @@ function keyPressed() {
   else if (key === "4") currentModule = 4;
   else if (key === "5") currentModule = 5;
 }
-
 
 // Temporary screen for unfinished modules.
 function drawNotImplemented() {
@@ -63,12 +57,10 @@ function drawNotImplemented() {
     palette[1][1],
     palette[1][2]
   );
-
+  
   noStroke();
-
   textAlign(CENTER, CENTER);
   textSize(32);
-
   text(
     "Module " +
     currentModule +
